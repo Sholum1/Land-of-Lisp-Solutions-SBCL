@@ -76,15 +76,15 @@
 
 ;; After Tail Call Optimazation
 (defun random-walk (value length)
-  (labels ((random-walk-aux (value length acc)
+  (labels ((random-walk-aux (value length)
              (if (zerop length)
-                 (reverse acc)
-                 (random-walk-aux (if (zerop (random 2))
-				      (1- value)
-				      (1+ value))
-				  (1- length)
-				  (cons value acc)))))
-    (random-walk-aux value length nil)))
+		 nil
+                 (cons value
+		       (random-walk-aux (if (zerop (random 2))
+					   (1- value)
+					   (1+ value))
+				       (1- length))))))
+    (random-walk-aux value length)))
 
 (defun make-graph ()
   (with-open-file (*standard-output* "random_walk.svg"
